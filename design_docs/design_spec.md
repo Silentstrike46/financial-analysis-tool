@@ -73,23 +73,25 @@ The wrapper exists so that the DataFrame is available for efficient pandas work 
 
 ### `ImportReport` (the diagnostics)
 
-Returned alongside `SpendingData` so import problems are visible. It records, per sheet, what happened:
+Returned alongside `SpendingData` so import problems are visible. It is nested by file: `ImportReport` holds a list of `FileReport` (one per input file) plus dataset-level `warnings`; each `FileReport` holds the file path, an optional `error` (set when the file itself could not be read - missing or unsupported type - in which case the batch continues), and a list of `SheetReport`. Each `SheetReport` records:
 
-- **Skipped sheets** - name and reason (e.g. "missing required column: category"). This is how a user notices that, say, `May 2026` was skipped because of a header mismatch, while an expected skip like `Summary` makes sense at a glance. The importer does not try to guess which skips are intentional; it reports all of them uniformly and lets the user judge.
-- **Imported sheets** - name, rows imported, and rows dropped (with the reason, e.g. unparseable date or non-numeric price).
-- **Warnings** - dataset-level notes, such as `essential` being disabled because it was absent from some sheets, or a duplicate column match resolved by first-match-wins.
+- **Skipped sheets** - name and reason (e.g. "missing required column(s): category"). This is how a user notices that, say, `May 2026` was skipped because of a header mismatch, while an expected skip like `Summary` makes sense at a glance. The importer does not try to guess which skips are intentional; it reports all of them uniformly and lets the user judge.
+- **Imported sheets** - name, rows imported, and rows dropped (bad dates / non-numeric prices).
 
-The import entry point returns both:
+Dataset-level `warnings` capture cross-cutting notes, such as `essential` being disabled because it was absent/incomplete on some sheets (naming the offenders), or a duplicate column match resolved by first-match-wins.
+
+The import entry point supports multiple files (e.g. one file per year), concatenating their rows; files are assumed disjoint (no row deduplication). A single-file convenience wrapper delegates to the multi-file form:
 
 ```
-import_file(filepath) -> (SpendingData, ImportReport)
+import_files(paths) -> (SpendingData, ImportReport)
+import_file(path)   -> import_files([path])
 ```
 
 ## 4. Ingestion Design
 
 ### Sheet iteration
 
-A single file may be a CSV (one implicit sheet) or an Excel file with an arbitrary number of sheets, some of which are not data (e.g. `Summary`, `Categories`). Ingestion iterates over every available sheet, checks whether it contains the required columns, and imports the ones that do. Sheets without the required columns are skipped and recorded in the report. Data is identified by its columns and rows, never by sheet names.
+A file may be a CSV (one implicit sheet) or an Excel file with an arbitrary number of sheets, some of which are not data (e.g. `Summary`, `Categories`). Ingestion iterates over every sheet of every file, checks whether it contains the required columns, and imports the ones that do. Sheets without the required columns are skipped and recorded in the report. Data is identified by its columns and rows, never by sheet names. The orchestration lives in `ingest/pipeline.py` (wiring `reader` -> `mapping` -> `cleaning`); `ingest/__init__.py` only re-exports the public `import_files` / `import_file`.
 
 ### Column matching
 
@@ -107,7 +109,7 @@ Columns are matched case-insensitively against a small alias set per canonical c
 
 ### `essential` availability (approach A - all-or-nothing)
 
-`essential` is treated as available only if it is present and populated across every imported sheet that contains data. If any data sheet lacks it, the whole dataset is treated as not having essential data: `has_essential` is `False`, the essential analysis and its chart are omitted, and a warning is logged in the report explaining why. This keeps the essential analysis from ever being partial or misleading. (Approach B - analyzing only the rows where essential is known - is a possible future upgrade if mixed sheets become common.)
+`essential` is treated as available only if it is present and populated across every imported data sheet, in every file. Each sheet is classified ABSENT / COMPLETE / INCOMPLETE; `has_essential` is `True` only when all data sheets are COMPLETE. If every sheet is ABSENT, essential is silently disabled (the feature is simply unused - no warning). If some sheets are COMPLETE while others are ABSENT or INCOMPLETE, the whole dataset is treated as not having essential data (`has_essential` is `False`, the essential analysis and its chart are omitted) and a warning naming the offending sheets is logged. This keeps the essential analysis from ever being partial or misleading. (Approach B - analyzing only the rows where essential is known - is a possible future upgrade if mixed sheets become common.)
 
 ### Row cleaning
 
@@ -161,9 +163,10 @@ financial-analysis-tool/
   src/
     spending/               # the reusable core (installed editable)
       __init__.py
-      models.py             # SpendingData, ImportReport  (shared contract)
+      models.py             # SpendingData, ImportReport/FileReport/SheetReport (shared contract)
       ingest/
-        __init__.py         # import_file(path) -> (SpendingData, ImportReport)  (orchestrator)
+        __init__.py         # re-exports import_files / import_file
+        pipeline.py         # orchestrator: import_files -> (SpendingData, ImportReport)
         reader.py           # open CSV/Excel, yield (sheet_name, raw_df)
         mapping.py          # alias sets + case-insensitive column detection
         cleaning.py         # dtype parsing, essential parser, row validation, drop + count
@@ -181,7 +184,7 @@ financial-analysis-tool/
 `streamlit_app.py` stays at the repo root (it is the app entry point, not part
 of the importable package) and imports `spending`.
 
-- `ingest` is split into reader / mapping / cleaning because they are genuinely different jobs (I/O vs. header-matching vs. row-cleaning) and each is unit-testable in isolation, which matters for the reuse goal.
+- `ingest` is split into reader / mapping / cleaning (with `pipeline` orchestrating them) because they are genuinely different jobs (I/O vs. header-matching vs. row-cleaning) and each is unit-testable in isolation, which matters for the reuse goal. `tests/` mirrors the `src/` tree (e.g. `tests/spending/ingest/`) so same-named test modules never collide.
 - `models.py` sits at the package level because both `ingest` (produces) and `analysis` / `ui` (consume) depend on it.
 - `ImportReport` is produced only by `ingest` and consumed by `ui`; it can live in `models.py` alongside `SpendingData` for a single shared contract location.
 
