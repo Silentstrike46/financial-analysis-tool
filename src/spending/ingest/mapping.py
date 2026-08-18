@@ -35,11 +35,25 @@ class ColumnMatch:
 
 
 def _normalize(name: str) -> str:
+    """Normalize a header for matching (strip surrounding space, lowercase)."""
     return name.strip().lower()
 
 
 def match_columns(columns: list[str]) -> ColumnMatch:
-    """Match ``columns`` to canonical names; first match wins on duplicates."""
+    """Match a sheet's headers to canonical column names.
+
+    Matching is by normalized (case- and whitespace-insensitive) equality
+    against each canonical column's alias set. When two headers match the
+    same canonical column, the first wins and the rest are reported as
+    duplicate warnings.
+
+    Args:
+        columns: The sheet's header names, in order.
+
+    Returns:
+        A ColumnMatch with the canonical-to-actual mapping, any missing
+        required columns, and any duplicate-match warnings.
+    """
     alias_to_canonical = {
         alias: canonical for canonical, aliases in ALIASES.items() for alias in aliases
     }

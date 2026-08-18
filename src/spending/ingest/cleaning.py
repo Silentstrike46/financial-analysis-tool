@@ -36,6 +36,7 @@ class CleanedSheet:
 
 
 def _to_bool(value: Any) -> bool | None:
+    """Convert a single cell to a bool, or None if uninterpretable."""
     if pd.isna(value):
         return None
     if isinstance(value, bool):
@@ -55,18 +56,42 @@ def _to_bool(value: Any) -> bool | None:
 
 
 def parse_essential(series: pd.Series) -> pd.Series:
-    """Convert an essential column to nullable booleans (NA when unknown)."""
+    """Convert an essential column to nullable booleans.
+
+    Accepts native booleans, textual variants (``TRUE``/``FALSE``,
+    ``yes``/``no``, ``T``/``F``, ``1``/``0``), and numeric 1/0.
+
+    Args:
+        series: The raw essential column.
+
+    Returns:
+        A ``boolean``-dtype Series with NA for values that could not be
+        interpreted.
+    """
     if pd.api.types.is_bool_dtype(series):
         return series.astype("boolean")
     return series.map(_to_bool).astype("boolean")
 
 
 def clean_sheet(raw: pd.DataFrame, match: ColumnMatch) -> CleanedSheet:
-    """Clean ``raw`` using ``match`` into canonical, validated rows.
+    """Clean a raw sheet into canonical, validated rows.
+
+    Produces the canonical columns (``date``, ``price``, ``category``,
+    ``item``, and ``essential`` when present), drops and counts rows with an
+    unparseable date or non-numeric price, trims text, and classifies the
+    sheet's essential column for the approach-A availability rule.
 
     Dates are parsed permissively. Ambiguous non-ISO formats (e.g.
     ``01/02/2026``) follow pandas' month-first default and may misparse;
     ISO dates (``2026-08-01``) are unambiguous.
+
+    Args:
+        raw: The raw sheet as read from the file.
+        match: The column mapping produced by ``match_columns``.
+
+    Returns:
+        A CleanedSheet with the canonical rows, the dropped-row count, and
+        the sheet's essential state.
     """
     columns = match.mapping
     out = pd.DataFrame()

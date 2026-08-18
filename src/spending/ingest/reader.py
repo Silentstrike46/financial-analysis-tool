@@ -14,7 +14,20 @@ _EXCEL_SUFFIXES = {".xlsx", ".xlsm", ".xls"}
 
 
 def read_sheets(path: str | Path) -> Iterator[tuple[str, pd.DataFrame]]:
-    """Yield ``(sheet_name, raw_df)`` for each sheet in ``path``."""
+    """Yield each raw sheet from a CSV or Excel file.
+
+    A CSV is treated as a single sheet named after the file; an Excel file
+    yields each of its sheets in order.
+
+    Args:
+        path: Path to a ``.csv``, ``.xlsx``, ``.xlsm``, or ``.xls`` file.
+
+    Yields:
+        ``(sheet_name, raw_df)`` for each sheet, unmapped and uncleaned.
+
+    Raises:
+        ValueError: If the file extension is not supported.
+    """
     path = Path(path)
     suffix = path.suffix.lower()
 

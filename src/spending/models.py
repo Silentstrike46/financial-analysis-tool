@@ -64,4 +64,5 @@ class SpendingData:
 
     @property
     def is_empty(self) -> bool:
+        """Whether the canonical DataFrame has no rows."""
         return bool(self.df.empty)

@@ -30,7 +30,19 @@ _ImportedSheet = tuple[str, CleanedSheet]
 def import_files(
     paths: Sequence[str | Path],
 ) -> tuple[SpendingData, ImportReport]:
-    """Import one or more files into a single SpendingData and report."""
+    """Import one or more files into a single SpendingData and report.
+
+    Each file's sheets are read, matched, cleaned, and concatenated. Files
+    are assumed disjoint (no row deduplication). ``has_essential`` is
+    resolved all-or-nothing across every imported sheet and file. Per-file
+    read errors are recorded on the report and do not abort the batch.
+
+    Args:
+        paths: Paths to the CSV/Excel files to import.
+
+    Returns:
+        The combined SpendingData and a nested ImportReport.
+    """
     file_reports: list[FileReport] = []
     warnings: list[str] = []
     imported: list[_ImportedSheet] = []
@@ -51,13 +63,21 @@ def import_files(
 
 
 def import_file(path: str | Path) -> tuple[SpendingData, ImportReport]:
-    """Import a single file (convenience wrapper over ``import_files``)."""
+    """Import a single file (convenience wrapper over ``import_files``).
+
+    Args:
+        path: Path to the CSV/Excel file to import.
+
+    Returns:
+        The combined SpendingData and a nested ImportReport.
+    """
     return import_files([path])
 
 
 def _import_single_file(
     path: str | Path,
 ) -> tuple[FileReport, list[_ImportedSheet], list[str]]:
+    """Read and clean one file into its report, sheets, and warnings."""
     try:
         sheets = list(read_sheets(path))
     except Exception as exc:
@@ -95,6 +115,12 @@ def _import_single_file(
 
 
 def _resolve_essential(imported: list[_ImportedSheet]) -> tuple[bool, str | None]:
+    """Decide has_essential across sheets, with a warning when disabled.
+
+    Returns ``(True, None)`` only when every sheet's essential column is
+    COMPLETE; ``(False, None)`` when all are ABSENT; otherwise
+    ``(False, warning)`` naming the offending sheets.
+    """
     states = [cleaned.essential_state for _, cleaned in imported]
     if not states:
         return False, None
@@ -116,6 +142,10 @@ def _resolve_essential(imported: list[_ImportedSheet]) -> tuple[bool, str | None
 
 
 def _combine(imported: list[_ImportedSheet], *, has_essential: bool) -> pd.DataFrame:
+    """Concatenate cleaned sheets into the canonical DataFrame.
+
+    Includes the ``essential`` column only when ``has_essential`` is True.
+    """
     columns = (
         [*_CANONICAL_COLUMNS, "essential"] if has_essential else _CANONICAL_COLUMNS
     )
