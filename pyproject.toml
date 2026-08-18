@@ -1,0 +1,59 @@
+[project]
+name = "financial-analysis-tool"
+version = "0.1.0"
+description = "Personal spending analysis tool"
+readme = "README.md"
+authors = [
+    { name = "Caleb Zeeman", email = "caleb@siliasstudios.com" }
+]
+requires-python = ">=3.13"
+dependencies = [
+    "openpyxl>=3.1.5",
+    "pandas>=3.0.5",
+    "plotly>=6.9.0",
+    "streamlit>=1.61.1",
+]
+
+[build-system]
+requires = ["uv_build>=0.12.5,<0.13.0"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "spending"
+
+[dependency-groups]
+dev = [
+    "mypy>=2.3.1",
+    "pandas-stubs>=3.0.5.260730",
+    "pytest>=9.1.1",
+    "pytest-cov>=7.1.0",
+    "ruff>=0.16.3",
+]
+
+[tool.ruff]
+line-length = 88
+target-version = "py313"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "RUF"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--strict-markers --strict-config --import-mode=importlib"
+
+[tool.coverage.run]
+source = ["spending"]
+branch = true
+
+[tool.coverage.report]
+show_missing = true
+
+[tool.mypy]
+python_version = "3.13"
+strict = true
+files = ["src", "tests"]
+
+[[tool.mypy.overrides]]
+module = "tests.*"
+disallow_untyped_defs = false
+disallow_incomplete_defs = false
