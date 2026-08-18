@@ -38,6 +38,19 @@ def test_non_numeric_prices_are_dropped_and_counted():
     assert cleaned.df["price"].tolist() == [30.0]
 
 
+def test_price_is_always_float_even_when_integral():
+    """Tests that all-integer prices are still coerced to float dtype."""
+    raw = pd.DataFrame(
+        {
+            "Date": ["2026-08-01", "2026-08-02"],
+            "Price": [10, 20],  # integer values
+            "Category": ["Food", "Food"],
+        }
+    )
+    cleaned = _clean(raw)
+    assert cleaned.df["price"].dtype == "float64"
+
+
 def test_negative_prices_are_kept():
     """Tests that negative prices (refunds) survive cleaning."""
     raw = pd.DataFrame(

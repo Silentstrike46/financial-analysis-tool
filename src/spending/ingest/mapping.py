@@ -18,7 +18,7 @@ REQUIRED: frozenset[str] = frozenset({DATE, PRICE, CATEGORY})
 
 ALIASES: dict[str, set[str]] = {
     DATE: {"date"},
-    PRICE: {"price"},
+    PRICE: {"price", "amount", "cost"},
     CATEGORY: {"category"},
     ITEM: {"item"},
     ESSENTIAL: {"essential"},

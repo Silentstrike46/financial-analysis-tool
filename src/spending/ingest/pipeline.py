@@ -24,7 +24,7 @@ from spending.models import (
 
 _CANONICAL_COLUMNS = ["date", "price", "category", "item"]
 
-_ImportedSheet = tuple[str, CleanedSheet]
+_ImportedSheet = tuple[str, str, CleanedSheet]  # (file_path, sheet_name, cleaned)
 
 
 def import_files(
@@ -42,7 +42,16 @@ def import_files(
 
     Returns:
         The combined SpendingData and a nested ImportReport.
+
+    Raises:
+        TypeError: If a single path is passed instead of a sequence.
     """
+    if isinstance(paths, (str, Path)):
+        raise TypeError(
+            "import_files expects a sequence of paths; "
+            "use import_file for a single path."
+        )
+
     file_reports: list[FileReport] = []
     warnings: list[str] = []
     imported: list[_ImportedSheet] = []
@@ -108,7 +117,7 @@ def _import_single_file(
                 rows_dropped=cleaned.rows_dropped,
             )
         )
-        imported.append((name, cleaned))
+        imported.append((str(path), name, cleaned))
         warnings.extend(f"[{path} / {name}] {w}" for w in match.duplicate_warnings)
 
     return FileReport(path=str(path), sheets=reports), imported, warnings
@@ -119,9 +128,9 @@ def _resolve_essential(imported: list[_ImportedSheet]) -> tuple[bool, str | None
 
     Returns ``(True, None)`` only when every sheet's essential column is
     COMPLETE; ``(False, None)`` when all are ABSENT; otherwise
-    ``(False, warning)`` naming the offending sheets.
+    ``(False, warning)`` naming the offending sheets, qualified by file.
     """
-    states = [cleaned.essential_state for _, cleaned in imported]
+    states = [cleaned.essential_state for _, _, cleaned in imported]
     if not states:
         return False, None
     if all(state is EssentialState.COMPLETE for state in states):
@@ -130,8 +139,8 @@ def _resolve_essential(imported: list[_ImportedSheet]) -> tuple[bool, str | None
         return False, None
 
     offenders = [
-        name
-        for name, cleaned in imported
+        f"[{path} / {name}]"
+        for path, name, cleaned in imported
         if cleaned.essential_state is not EssentialState.COMPLETE
     ]
     warning = (
@@ -146,12 +155,28 @@ def _combine(imported: list[_ImportedSheet], *, has_essential: bool) -> pd.DataF
 
     Includes the ``essential`` column only when ``has_essential`` is True.
     """
+    if not imported:
+        return _empty_frame()
     columns = (
         [*_CANONICAL_COLUMNS, "essential"] if has_essential else _CANONICAL_COLUMNS
     )
-    if not imported:
-        return pd.DataFrame(columns=columns)
-    df = pd.concat([cleaned.df for _, cleaned in imported], ignore_index=True)
+    df = pd.concat([cleaned.df for _, _, cleaned in imported], ignore_index=True)
     if has_essential:
         df["essential"] = df["essential"].astype(bool)
     return df[columns]
+
+
+def _empty_frame() -> pd.DataFrame:
+    """Build a typed, empty canonical DataFrame (no rows, correct dtypes).
+
+    An empty result always means no imported sheets - and therefore no
+    essential column (see ``_resolve_essential``) - so ``essential`` is
+    omitted.
+    """
+    dtypes = {
+        "date": "datetime64[ns]",
+        "price": "float64",
+        "category": "string",
+        "item": "string",
+    }
+    return pd.DataFrame(columns=list(dtypes)).astype(dtypes)

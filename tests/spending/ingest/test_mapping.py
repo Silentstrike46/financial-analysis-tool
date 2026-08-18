@@ -36,6 +36,12 @@ def test_notes_and_unknown_columns_are_ignored():
     assert set(match.mapping) == {"date", "price", "category"}
 
 
+def test_price_aliases_amount_and_cost_match():
+    """Tests that 'Amount' and 'Cost' are accepted as price aliases."""
+    assert match_columns(["Date", "Amount", "Category"]).mapping["price"] == "Amount"
+    assert match_columns(["Date", "Cost", "Category"]).mapping["price"] == "Cost"
+
+
 def test_duplicate_match_keeps_first_and_warns():
     """Tests that two columns matching one canonical keep the first and warn."""
     match = match_columns(["Date", "Price", "price", "Category"])

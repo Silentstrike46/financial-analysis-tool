@@ -81,9 +81,13 @@ def clean_sheet(raw: pd.DataFrame, match: ColumnMatch) -> CleanedSheet:
     unparseable date or non-numeric price, trims text, and classifies the
     sheet's essential column for the approach-A availability rule.
 
-    Dates are parsed permissively. Ambiguous non-ISO formats (e.g.
-    ``01/02/2026``) follow pandas' month-first default and may misparse;
-    ISO dates (``2026-08-01``) are unambiguous.
+    NOTE: dates within a column are expected to use a single, consistent
+    format. Pandas infers one format and coerces values that do not match
+    to NaT, silently dropping those rows. ISO dates (``2026-08-01``) are
+    required for unambiguous results; non-ISO formats (e.g. ``01/02/2026``)
+    follow pandas' month-first default and mixed formats are not supported.
+    Consistent, valid input is assumed - inconsistent data yields
+    inconsistent output.
 
     Args:
         raw: The raw sheet as read from the file.
@@ -96,7 +100,9 @@ def clean_sheet(raw: pd.DataFrame, match: ColumnMatch) -> CleanedSheet:
     columns = match.mapping
     out = pd.DataFrame()
     out["date"] = pd.to_datetime(raw[columns["date"]], errors="coerce")
-    out["price"] = pd.to_numeric(raw[columns["price"]], errors="coerce")
+    out["price"] = pd.to_numeric(raw[columns["price"]], errors="coerce").astype(
+        "float64"
+    )
     out["category"] = raw[columns["category"]].astype("string").str.strip()
 
     if "item" in columns:

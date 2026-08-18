@@ -3,6 +3,7 @@
 from pathlib import Path
 
 import pandas as pd
+import pytest
 
 from spending.ingest import import_file, import_files
 from spending.models import ImportReport, SheetStatus
@@ -87,6 +88,38 @@ def test_no_valid_sheet_yields_empty_data(tmp_path: Path):
 
     assert data.is_empty
     assert _status(report, "Summary") is SheetStatus.SKIPPED
+
+
+def test_empty_result_has_typed_canonical_columns(tmp_path: Path):
+    """Tests that empty SpendingData keeps canonical dtypes, not object."""
+    path = write_xlsx(
+        tmp_path / "book.xlsx",
+        {"Summary": pd.DataFrame({"Month": ["Aug"], "Total": [30.0]})},
+    )
+
+    data, _ = import_file(path)
+
+    assert data.is_empty
+    assert data.df["date"].dtype == "datetime64[ns]"
+    assert data.df["price"].dtype == "float64"
+
+
+def test_import_files_rejects_a_bare_string_path():
+    """Tests that a single string path is rejected instead of iterated."""
+    with pytest.raises(TypeError):
+        import_files("expenses.csv")
+
+
+def test_essential_warning_identifies_the_offending_file(tmp_path: Path):
+    """Tests that the essential warning is qualified by file, not just sheet."""
+    good = write_xlsx(
+        tmp_path / "good.xlsx", {"August 2026": data_sheet(essential=[True, False])}
+    )
+    bad = write_xlsx(tmp_path / "bad.xlsx", {"August 2026": data_sheet()})
+
+    _data, report = import_files([good, bad])
+
+    assert any("bad.xlsx" in w for w in report.warnings)
 
 
 def test_bad_rows_are_counted_in_the_sheet_report(tmp_path: Path):

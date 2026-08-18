@@ -10,7 +10,7 @@ from pathlib import Path
 
 import pandas as pd
 
-_EXCEL_SUFFIXES = {".xlsx", ".xlsm", ".xls"}
+_EXCEL_SUFFIXES = {".xlsx", ".xlsm"}
 
 
 def read_sheets(path: str | Path) -> Iterator[tuple[str, pd.DataFrame]]:
@@ -20,7 +20,7 @@ def read_sheets(path: str | Path) -> Iterator[tuple[str, pd.DataFrame]]:
     yields each of its sheets in order.
 
     Args:
-        path: Path to a ``.csv``, ``.xlsx``, ``.xlsm``, or ``.xls`` file.
+        path: Path to a ``.csv``, ``.xlsx``, or ``.xlsm`` file.
 
     Yields:
         ``(sheet_name, raw_df)`` for each sheet, unmapped and uncleaned.
