@@ -1,0 +1,1 @@
+"""Spending analysis core package."""
