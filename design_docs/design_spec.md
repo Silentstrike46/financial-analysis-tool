@@ -171,7 +171,8 @@ financial-analysis-tool/
         mapping.py          # alias sets + case-insensitive column detection
         cleaning.py         # dtype parsing, essential parser, row validation, drop + count
       analysis/
-        __init__.py         # the three metric functions (pure)
+        __init__.py         # re-exports the metric functions
+        metrics.py          # the three metric functions (pure)
       viz/
         __init__.py         # Plotly figure builders
   tests/
