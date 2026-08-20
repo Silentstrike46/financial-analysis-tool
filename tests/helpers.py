@@ -34,8 +34,9 @@ def spending_data(
     """Build a canonical ``SpendingData`` from parallel column lists.
 
     Dates are parsed to datetime and the columns given their canonical
-    dtypes, matching what the ingest layer produces. Pass ``essential`` to
-    include a boolean ``essential`` column and set ``has_essential`` True.
+    dtypes, matching what the ingest layer produces (including an all-NA
+    ``item`` column). Pass ``essential`` to include a plain-``bool``
+    ``essential`` column and set ``has_essential`` True.
 
     Args:
         dates: ISO date strings, one per row.
@@ -52,10 +53,11 @@ def spending_data(
             "date": pd.to_datetime(dates),
             "price": pd.Series(prices, dtype="float64"),
             "category": pd.Series(categories, dtype="string"),
+            "item": pd.Series([pd.NA] * len(dates), dtype="string"),
         }
     )
     if essential is not None:
-        df["essential"] = pd.Series(essential, dtype="boolean")
+        df["essential"] = pd.Series(essential, dtype="bool")
     return SpendingData(df=df, has_essential=essential is not None)
 
 
