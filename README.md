@@ -105,7 +105,7 @@ uv run ruff format --check .    # formatting
 
 ## Architecture
 
-The tool is split into four layers, each depending only on the one before it:
+The tool is split into four layers with a one-way dependency flow - a layer may use the ones before it, never the ones after:
 
 ```
 ingest  ->  analysis  ->  viz  ->  ui
@@ -124,7 +124,7 @@ The core idea is to push the prototype as far as possible with regards to analys
 
 Directions the prototype is built toward but does not yet implement (see [Section 10 of the design spec](design_docs/design_spec.md#10-deferred-and-future-work)):
 
-- **Persistence** - a local database (DuckDB is the likely target) so data is not re-read from files on every refresh.
+- **Persistence** - a local database for durable storage and querying, so imports survive restarts instead of re-parsing the spreadsheets on each cold start.
 - **Framework growth path** - Streamlit now; NiceGUI / Dash, then a separate frontend, only when a concrete need forces it. Backend file import and analysis was designed to be framework agnostic (written as a package), so shifting to a proper backend framework should not be an issue either.
 - **More analyses** - added as new pure functions in `analysis` with matching builders in `viz` (for example, income analysis, projections, and so on).
 - **Richer normalization** - heavier handling of free-text fields, deferred until a feature needs it.

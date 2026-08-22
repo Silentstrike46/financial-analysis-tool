@@ -16,7 +16,7 @@ RUN uv sync --frozen --no-install-project --no-dev
 # Install the project itself (non-editable, so the package is copied into the
 # venv and the runtime stage needs no src/ tree).
 COPY src ./src
-COPY README.md ./
+COPY README.md LICENSE ./
 RUN uv sync --frozen --no-dev --no-editable
 
 # Stage 2: minimal runtime image with just the built venv and the entry point.
