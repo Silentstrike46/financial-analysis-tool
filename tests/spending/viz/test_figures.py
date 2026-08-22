@@ -146,7 +146,7 @@ def test_by_category_bar_is_stacked_with_one_trace_per_category():
     assert fig.layout.barmode == "relative"
 
 
-def test_by_category_trace_carries_only_its_categorys_values():
+def test_by_category_trace_carries_only_its_category_values():
     """Tests that a category's trace holds that category's months and totals."""
     frame = _by_category(
         ["2026-08-01", "2026-09-01"],

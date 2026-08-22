@@ -27,7 +27,8 @@ from spending.viz import (
 )
 
 DATA_DIR = Path("data")
-_SUFFIXES = {".csv", ".xlsx"}
+# Mirrors the file types spending.ingest.reader can read (.csv + Excel).
+_SUFFIXES = {".csv", ".xlsx", ".xlsm"}
 
 
 @st.cache_data
