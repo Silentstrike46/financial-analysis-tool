@@ -1,0 +1,185 @@
+date,item,category,price,essential
+2025-01-01,Utility bill,Utilities,47.50,TRUE
+2025-01-01,Restaurant,Dining,54.98,FALSE
+2025-01-04,Supermarket,Groceries,109.44,TRUE
+2025-01-06,Streaming / outing,Entertainment,65.55,FALSE
+2025-01-07,Fuel / transit,Transport,58.81,FALSE
+2025-01-08,Supermarket,Groceries,50.35,TRUE
+2025-01-08,Restaurant,Dining,38.26,FALSE
+2025-01-09,Restaurant,Dining,57.71,FALSE
+2025-01-11,Streaming / outing,Entertainment,31.51,FALSE
+2025-01-19,Utility bill,Utilities,73.75,TRUE
+2025-01-20,Fuel / transit,Transport,19.51,FALSE
+2025-01-21,Monthly rent,Rent,1500.00,TRUE
+2025-01-23,Fuel / transit,Transport,49.06,FALSE
+2025-01-24,Supermarket,Groceries,65.25,TRUE
+2025-01-29,Supermarket,Groceries,94.99,TRUE
+2025-02-02,Restaurant,Dining,49.71,FALSE
+2025-02-03,Streaming / outing,Entertainment,78.28,FALSE
+2025-02-04,Utility bill,Utilities,117.85,TRUE
+2025-02-07,Monthly rent,Rent,1500.00,TRUE
+2025-02-07,Restaurant,Dining,52.05,FALSE
+2025-02-09,Supermarket,Groceries,123.78,TRUE
+2025-02-11,Supermarket,Groceries,46.24,TRUE
+2025-02-13,Supermarket,Groceries,45.64,TRUE
+2025-02-18,Fuel / transit,Transport,34.71,FALSE
+2025-02-21,Fuel / transit,Transport,53.26,FALSE
+2025-02-24,Utility bill,Utilities,76.75,TRUE
+2025-02-25,Restaurant,Dining,29.63,FALSE
+2025-02-28,Supermarket,Groceries,72.84,TRUE
+2025-02-28,Fuel / transit,Transport,38.61,FALSE
+2025-02-28,Streaming / outing,Entertainment,17.18,FALSE
+2025-03-03,Utility bill,Utilities,88.73,TRUE
+2025-03-03,Streaming / outing,Entertainment,26.09,FALSE
+2025-03-06,Utility bill,Utilities,82.73,TRUE
+2025-03-09,Monthly rent,Rent,1500.00,TRUE
+2025-03-11,Restaurant,Dining,59.51,FALSE
+2025-03-11,Streaming / outing,Entertainment,41.49,FALSE
+2025-03-12,Supermarket,Groceries,74.08,TRUE
+2025-03-15,Fuel / transit,Transport,39.63,FALSE
+2025-03-18,Fuel / transit,Transport,30.52,FALSE
+2025-03-18,Returned item,Dining,-42.50,FALSE
+2025-03-22,Supermarket,Groceries,64.37,TRUE
+2025-03-25,Restaurant,Dining,17.02,FALSE
+2025-03-27,Supermarket,Groceries,75.13,TRUE
+2025-03-27,Restaurant,Dining,15.73,FALSE
+2025-03-30,Supermarket,Groceries,110.19,TRUE
+2025-03-30,Fuel / transit,Transport,54.48,FALSE
+2025-04-03,Fuel / transit,Transport,61.08,FALSE
+2025-04-03,Streaming / outing,Entertainment,40.17,FALSE
+2025-04-05,Supermarket,Groceries,64.14,TRUE
+2025-04-05,Fuel / transit,Transport,47.04,FALSE
+2025-04-08,Utility bill,Utilities,99.60,TRUE
+2025-04-11,Supermarket,Groceries,58.39,TRUE
+2025-04-12,Fuel / transit,Transport,30.50,FALSE
+2025-04-16,Supermarket,Groceries,78.52,TRUE
+2025-04-18,Utility bill,Utilities,61.02,TRUE
+2025-04-19,Monthly rent,Rent,1500.00,TRUE
+2025-04-20,Streaming / outing,Entertainment,89.69,FALSE
+2025-04-21,Restaurant,Dining,22.64,FALSE
+2025-04-22,Restaurant,Dining,36.80,FALSE
+2025-04-28,Restaurant,Dining,19.92,FALSE
+2025-04-29,Pharmacy,Health,105.04,TRUE
+2025-04-30,Supermarket,Groceries,105.71,TRUE
+2025-05-01,Supermarket,Groceries,109.83,TRUE
+2025-05-01,Fuel / transit,Transport,72.37,FALSE
+2025-05-04,Supermarket,Groceries,109.99,TRUE
+2025-05-04,Utility bill,Utilities,63.48,TRUE
+2025-05-12,Streaming / outing,Entertainment,70.76,FALSE
+2025-05-17,Monthly rent,Rent,1500.00,TRUE
+2025-05-17,Fuel / transit,Transport,61.43,FALSE
+2025-05-17,Restaurant,Dining,63.28,FALSE
+2025-05-18,Supermarket,Groceries,129.69,TRUE
+2025-05-18,Supermarket,Groceries,117.60,TRUE
+2025-05-20,Streaming / outing,Entertainment,25.11,FALSE
+2025-05-25,Utility bill,Utilities,91.28,TRUE
+2025-05-27,Restaurant,Dining,48.50,FALSE
+2025-05-28,Restaurant,Dining,47.77,FALSE
+2025-05-29,Fuel / transit,Transport,59.02,FALSE
+2025-06-01,Supermarket,Groceries,100.88,TRUE
+2025-06-03,Pharmacy,Health,15.42,TRUE
+2025-06-05,Fuel / transit,Transport,25.32,FALSE
+2025-06-06,Restaurant,Dining,28.31,FALSE
+2025-06-07,Streaming / outing,Entertainment,84.24,FALSE
+2025-06-08,Utility bill,Utilities,44.63,TRUE
+2025-06-16,Supermarket,Groceries,37.14,TRUE
+2025-06-16,Fuel / transit,Transport,64.51,FALSE
+2025-06-16,Restaurant,Dining,65.13,FALSE
+2025-06-18,Monthly rent,Rent,1500.00,TRUE
+2025-06-25,Fuel / transit,Transport,48.36,FALSE
+2025-06-25,Streaming / outing,Entertainment,68.12,FALSE
+2025-06-27,Utility bill,Utilities,104.54,TRUE
+2025-06-28,Restaurant,Dining,46.76,FALSE
+2025-06-30,Supermarket,Groceries,93.34,TRUE
+2025-06-30,Supermarket,Groceries,74.93,TRUE
+2025-07-01,Pharmacy,Health,12.78,TRUE
+2025-07-03,Utility bill,Utilities,67.05,TRUE
+2025-07-03,Fuel / transit,Transport,69.61,FALSE
+2025-07-04,Supermarket,Groceries,62.27,TRUE
+2025-07-07,Monthly rent,Rent,1500.00,TRUE
+2025-07-13,Supermarket,Groceries,144.47,TRUE
+2025-07-17,Restaurant,Dining,26.85,FALSE
+2025-07-18,Restaurant,Dining,21.14,FALSE
+2025-07-19,Utility bill,Utilities,84.31,TRUE
+2025-07-19,Streaming / outing,Entertainment,47.29,FALSE
+2025-07-21,Supermarket,Groceries,76.08,TRUE
+2025-07-21,Fuel / transit,Transport,21.36,FALSE
+2025-07-22,Restaurant,Dining,40.21,FALSE
+2025-07-28,Fuel / transit,Transport,36.83,FALSE
+2025-07-29,Supermarket,Groceries,91.93,TRUE
+2025-07-30,Streaming / outing,Entertainment,80.47,FALSE
+2025-08-02,Utility bill,Utilities,93.87,TRUE
+2025-08-04,Supermarket,Groceries,107.49,TRUE
+2025-08-04,Fuel / transit,Transport,32.17,FALSE
+2025-08-05,Restaurant,Dining,36.78,FALSE
+2025-08-07,Fuel / transit,Transport,48.57,FALSE
+2025-08-09,Restaurant,Dining,38.98,FALSE
+2025-08-11,Fuel / transit,Transport,63.63,FALSE
+2025-08-12,Supermarket,Groceries,81.59,TRUE
+2025-08-14,Supermarket,Groceries,55.95,TRUE
+2025-08-15,Supermarket,Groceries,130.02,TRUE
+2025-08-15,Streaming / outing,Entertainment,74.45,FALSE
+2025-08-21,Utility bill,Utilities,47.87,TRUE
+2025-08-26,Monthly rent,Rent,1500.00,TRUE
+2025-08-28,Restaurant,Dining,63.86,FALSE
+2025-08-28,Streaming / outing,Entertainment,53.58,FALSE
+2025-09-02,Monthly rent,Rent,1500.00,TRUE
+2025-09-02,Streaming / outing,Entertainment,55.91,FALSE
+2025-09-03,Supermarket,Groceries,136.90,TRUE
+2025-09-07,Utility bill,Utilities,109.17,TRUE
+2025-09-10,Fuel / transit,Transport,42.11,FALSE
+2025-09-10,Streaming / outing,Entertainment,26.63,FALSE
+2025-09-13,Fuel / transit,Transport,33.12,FALSE
+2025-09-14,Supermarket,Groceries,88.42,TRUE
+2025-09-16,Restaurant,Dining,22.36,FALSE
+2025-09-18,Supermarket,Groceries,126.96,TRUE
+2025-09-18,Restaurant,Dining,49.74,FALSE
+2025-09-24,Restaurant,Dining,67.75,FALSE
+2025-09-26,Fuel / transit,Transport,62.75,FALSE
+2025-09-28,Supermarket,Groceries,61.00,TRUE
+2025-09-29,Utility bill,Utilities,44.69,TRUE
+2025-10-03,Restaurant,Dining,36.64,FALSE
+2025-10-04,Fuel / transit,Transport,71.67,FALSE
+2025-10-06,Supermarket,Groceries,41.26,TRUE
+2025-10-06,Utility bill,Utilities,45.48,TRUE
+2025-10-07,Streaming / outing,Entertainment,63.25,FALSE
+2025-10-11,Supermarket,Groceries,41.29,TRUE
+2025-10-11,Streaming / outing,Entertainment,84.71,FALSE
+2025-10-17,Utility bill,Utilities,46.41,TRUE
+2025-10-18,Monthly rent,Rent,1500.00,TRUE
+2025-10-19,Supermarket,Groceries,87.45,TRUE
+2025-10-19,Fuel / transit,Transport,32.03,FALSE
+2025-10-19,Restaurant,Dining,44.52,FALSE
+2025-10-20,Restaurant,Dining,16.15,FALSE
+2025-10-28,Fuel / transit,Transport,31.41,FALSE
+2025-10-30,Supermarket,Groceries,128.80,TRUE
+2025-11-05,Fuel / transit,Transport,71.20,FALSE
+2025-11-06,Restaurant,Dining,37.66,FALSE
+2025-11-07,Fuel / transit,Transport,46.84,FALSE
+2025-11-08,Restaurant,Dining,33.95,FALSE
+2025-11-11,Monthly rent,Rent,1500.00,TRUE
+2025-11-11,Supermarket,Groceries,137.19,TRUE
+2025-11-13,Supermarket,Groceries,49.40,TRUE
+2025-11-15,Utility bill,Utilities,89.69,TRUE
+2025-11-18,Restaurant,Dining,51.99,FALSE
+2025-11-19,Utility bill,Utilities,119.69,TRUE
+2025-11-20,Streaming / outing,Entertainment,88.69,FALSE
+2025-11-21,Supermarket,Groceries,68.00,TRUE
+2025-11-26,Streaming / outing,Entertainment,61.97,FALSE
+2025-11-29,Fuel / transit,Transport,21.92,FALSE
+2025-11-30,Supermarket,Groceries,42.98,TRUE
+2025-12-01,Monthly rent,Rent,1500.00,TRUE
+2025-12-02,Restaurant,Dining,18.98,FALSE
+2025-12-02,Streaming / outing,Entertainment,9.29,FALSE
+2025-12-04,Supermarket,Groceries,132.87,TRUE
+2025-12-09,Utility bill,Utilities,62.54,TRUE
+2025-12-11,Fuel / transit,Transport,29.61,FALSE
+2025-12-14,Restaurant,Dining,58.78,FALSE
+2025-12-17,Fuel / transit,Transport,45.85,FALSE
+2025-12-18,Supermarket,Groceries,67.93,TRUE
+2025-12-21,Fuel / transit,Transport,66.62,FALSE
+2025-12-22,Supermarket,Groceries,46.39,TRUE
+2025-12-24,Utility bill,Utilities,84.26,TRUE
+2025-12-25,Streaming / outing,Entertainment,19.60,FALSE
+2025-12-29,Supermarket,Groceries,49.77,TRUE
+2025-12-29,Restaurant,Dining,63.04,FALSE
