@@ -3,6 +3,8 @@ name = "financial-analysis-tool"
 version = "0.1.0"
 description = "Personal spending analysis tool"
 readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
 authors = [
     { name = "Caleb Zeeman", email = "caleb@siliasstudios.com" }
 ]
