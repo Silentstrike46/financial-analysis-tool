@@ -57,7 +57,7 @@ show_missing = true
 [tool.mypy]
 python_version = "3.13"
 strict = true
-files = ["src", "tests"]
+files = ["src", "tests", "streamlit_app.py"]
 
 [[tool.mypy.overrides]]
 module = "tests.*"
