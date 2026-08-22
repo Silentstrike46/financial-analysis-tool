@@ -1,0 +1,14 @@
+# Keep the build context to just what the image needs (see Dockerfile):
+# pyproject.toml, uv.lock, src/, streamlit_app.py, README.md.
+*
+
+!pyproject.toml
+!uv.lock
+!src
+!streamlit_app.py
+!README.md
+!LICENSE
+
+# Even within the kept paths, never ship caches or bytecode.
+**/__pycache__
+**/*.py[codz]

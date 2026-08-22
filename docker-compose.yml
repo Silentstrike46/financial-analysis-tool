@@ -1,0 +1,11 @@
+services:
+  app:
+    build: .
+    image: financial-analysis-tool
+    ports:
+      - "8501:8501"
+    # Spending files are authored elsewhere and mounted read-only at runtime;
+    # they are never baked into the image. Point this at any directory of
+    # .csv/.xlsx/.xlsm files (e.g. ./examples for the bundled sample).
+    volumes:
+      - ./data:/app/data:ro
