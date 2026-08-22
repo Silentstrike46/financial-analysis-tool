@@ -57,9 +57,15 @@ show_missing = true
 [tool.mypy]
 python_version = "3.13"
 strict = true
-files = ["src", "tests"]
+files = ["src", "tests", "streamlit_app.py"]
 
 [[tool.mypy.overrides]]
 module = "tests.*"
 disallow_untyped_defs = false
 disallow_incomplete_defs = false
+
+# Plotly ships no py.typed marker or stubs, so mypy strict cannot analyze it.
+# This is outside our control; scope the relaxation to plotly only.
+[[tool.mypy.overrides]]
+module = "plotly.*"
+ignore_missing_imports = true

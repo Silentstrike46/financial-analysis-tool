@@ -217,5 +217,7 @@ __marimo__/
 # Streamlit
 .streamlit/secrets.toml
 
-# Local input data (spreadsheets are authored elsewhere; never committed)
-/data/
+# Local input data (spreadsheets are authored elsewhere; never committed).
+# Keep the directory itself so it exists on a fresh clone.
+/data/*
+!/data/.gitkeep
