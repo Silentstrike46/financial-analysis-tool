@@ -63,3 +63,9 @@ files = ["src", "tests"]
 module = "tests.*"
 disallow_untyped_defs = false
 disallow_incomplete_defs = false
+
+# Plotly ships no py.typed marker or stubs, so mypy strict cannot analyze it.
+# This is outside our control; scope the relaxation to plotly only.
+[[tool.mypy.overrides]]
+module = "plotly.*"
+ignore_missing_imports = true
